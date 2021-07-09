@@ -1,24 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Row, Col } from "antd";
 import LayoutComponent from "../../components/layoutComponent";
 import "../../Style/form.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { helper } from "../../helpers/common";
 
 const SigUpPage = () => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const history = useHistory();
+  const [errorLogin, setErrorLogin] = useState("");
   const onFinish = (values) => {
     axios
       .post(`https://conduit.productionready.io/api/users`, { user: values })
       .then((response) => {
-        // console.log(response);
-        // console.log(response.data);
-        setUserName("");
-        setEmail("");
-        setPassword("");
+        let token = response.data.user.token;
+        // console.log("token:", token);
+        if (token !== null) {
+          helper.saveToken(token);
+          history.push("/profile");
+          setErrorLogin("");
+        } else {
+          setErrorLogin("account invalid");
+        }
       });
 
     console.log("Received values of form: ", values);
@@ -31,6 +34,7 @@ const SigUpPage = () => {
           <Link to="/login">
             <p className="text">Have an account ?</p>
           </Link>
+          <h3>{errorLogin}</h3>
           <Form
             name="normal_login"
             className="login-form"
