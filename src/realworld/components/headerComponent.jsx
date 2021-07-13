@@ -8,7 +8,7 @@ const { Header } = Layout;
 const HeaderComponent = () => {
   // const { pathname } = useLocation();
   const info = helper.decodeTokenFromLocalStorage();
-  console.log("info", info);
+  // console.log("info", info);
   const username = info !== null ? info["username"] : null;
   return (
     <Row>

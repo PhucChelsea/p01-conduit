@@ -9,7 +9,7 @@ import { Layout } from "antd";
 const { Content } = Layout;
 
 const StyleContent = styled.div`
-  min-height: 80vh;
+  min-height: 110vh;
 `;
 const LayoutComponent = (props) => {
   return (

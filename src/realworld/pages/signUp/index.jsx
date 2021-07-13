@@ -1,31 +1,46 @@
+import { Button, Col, Form, Input, Row } from "antd";
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col } from "antd";
+import { Link, useHistory } from "react-router-dom";
+import { api } from "../../api/api-user";
 import LayoutComponent from "../../components/layoutComponent";
 import "../../Style/form.css";
-import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
-import { helper } from "../../helpers/common";
 
 const SigUpPage = () => {
+  const [errorPassword, setErrorPassword] = useState("");
   const history = useHistory();
-  const [errorLogin, setErrorLogin] = useState("");
-  const onFinish = (values) => {
-    axios
-      .post(`https://conduit.productionready.io/api/users`, { user: values })
-      .then((response) => {
-        let token = response.data.user.token;
-        // console.log("token:", token);
-        if (token !== null) {
-          helper.saveToken(token);
-          history.push("/profile");
-          setErrorLogin("");
-        } else {
-          setErrorLogin("account invalid");
-        }
-      });
-
-    console.log("Received values of form: ", values);
+  const validationPass = (pass) => {
+    // let upperCaseLetters = /[A-Z]/g;
+    // let numbers = /[0-9]/g;
+    if (pass.length >= 8) {
+      setErrorPassword("");
+    } else {
+      setErrorPassword("minimum is 8 characters");
+    }
+    // if (pass.value.match(upperCaseLetters)) {
+    //   setErrorPassword("");
+    // } else {
+    //   setErrorPassword("password must contain a capital uppercase letter");
+    // }
+    // if (pass.value.match(numbers)) {
+    //   setErrorPassword("");
+    // } else {
+    //   setErrorPassword("password must contain a number");
+    // }
   };
+  const onFinish = (values) => {
+    const passwords = values.password;
+    validationPass(passwords);
+    const postUser = async () => {
+      const response = await api.postDataUser(values);
+      // const result = response.status === 200 ? response.data : {};
+      console.log("data:", response);
+      if (response !== null) {
+        history.push("/");
+      }
+    };
+    postUser();
+  };
+
   return (
     <LayoutComponent>
       <Row>
@@ -34,7 +49,9 @@ const SigUpPage = () => {
           <Link to="/login">
             <p className="text">Have an account ?</p>
           </Link>
-          <h3>{errorLogin}</h3>
+          <h3 style={{ textAlign: "center", color: "red" }}>{errorPassword}</h3>
+          {/* <h3 style={{ textAlign: "center", color: "red" }}>{errorPassword}</h3>
+          <h3 style={{ textAlign: "center", color: "red" }}>{errorPassword}</h3> */}
           <Form
             name="normal_login"
             className="login-form"
@@ -78,6 +95,36 @@ const SigUpPage = () => {
                 // prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
+              />
+            </Form.Item>
+            <Form.Item
+              name="confirm"
+              dependencies={["password"]}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: "Please confirm your password!",
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+
+                    return Promise.reject(
+                      new Error(
+                        "The two passwords that you entered do not match!"
+                      )
+                    );
+                  },
+                }),
+              ]}
+            >
+              <Input
+                type="password"
+                className="input_form"
+                placeholder="confirm password"
               />
             </Form.Item>
 
