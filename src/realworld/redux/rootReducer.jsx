@@ -1,6 +1,9 @@
 import { combineReducers } from "redux";
-import { signUpReducer } from "../pages/signUp/signUpReducer";
+import { userReducer } from "../pages/home/user-reducer";
+import { profileUserReducer } from "../pages/profile/profileReducer";
+
 const rootReducer = combineReducers({
-  signUpReducer,
+  userReducer,
+  profileUserReducer,
 });
 export default rootReducer;

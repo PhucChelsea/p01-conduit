@@ -1,7 +1,7 @@
 import { all, call } from "redux-saga/effects";
-// import { watchUserSaga } from "../pages/home/user-saga";
-import { watchUserSignUpSaga } from "../pages/signUp/signUpSaga";
+import { watchProfileUserSaga } from "../pages/profile/profileSaga";
+import { watchUserSaga } from "../pages/home/user-saga";
 
 export default function* rootSaga() {
-  yield all([call(watchUserSignUpSaga)]);
+  yield all([call(watchUserSaga), call(watchProfileUserSaga)]);
 }

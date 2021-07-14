@@ -1,6 +1,5 @@
 import axios from "axios";
 import { helper } from "../helpers/common";
-import { useHistory } from "react-router-dom";
 
 const postUserLogin = async ({ username, email, password }) => {
   const url = `https://conduit.productionready.io/api/users/login`;
@@ -30,7 +29,34 @@ const postDataUser = async ({ username, email, password }) => {
       }
     });
 };
+const getDataUser = async () => {
+  let config = {
+    headers: {
+      Authorization: "Token " + localStorage.getItem("jwt"),
+    },
+  };
+  const url = `https://conduit.productionready.io/api/user`;
+  const response = await axios.get(url, config);
+  const result = response.status === 200 ? response.data : {};
+  return result;
+};
+
+const getProfileUser = async (userName) => {
+  let config = {
+    headers: {
+      Authorization: "Token " + localStorage.getItem("jwt"),
+    },
+  };
+  console.log("username:", userName);
+  const url = `https://conduit.productionready.io/api/profiles/${userName}`;
+  const response = await axios.get(url, config);
+  const result = response.status === 200 ? response.data : {};
+  return result;
+};
+
 export const api = {
   postDataUser,
   postUserLogin,
+  getDataUser,
+  getProfileUser,
 };

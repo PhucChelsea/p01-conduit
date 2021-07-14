@@ -3,22 +3,24 @@ import * as types from "./types";
 export const getDataUser = () => ({
   type: types.GET_DATA_USERS,
 });
-export const startGetData = (loading) => ({
+// action duoc saga dispatch vao trong store
+
+export const loadingGetData = (loading) => ({
   type: types.START_GET_DATA,
   loading,
 });
 
-export const stopGetData = (loading) => ({
+export const endLoadingGetData = (loading) => ({
   type: types.STOP_GET_DATA,
   loading,
 });
 
-export const getDataUserSuccess = (users) => ({
+export const getDataUserSuccess = (data) => ({
   type: types.GET_DATA_USERS_SUCCESS,
-  users,
+  data,
 });
 
-export const getDataUserFailure = (error) => ({
+export const getDataUserFail = (error) => ({
   type: types.GET_DATA_USERS_FAIL,
   error,
 });
