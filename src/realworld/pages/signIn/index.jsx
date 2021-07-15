@@ -8,7 +8,7 @@ import { api } from "../../api/api-user";
 const SigInPage = () => {
   const history = useHistory();
 
-  const [errorLogin, setErrorLogin] = useState("");
+  // const [errorLogin, setErrorLogin] = useState("");
   const onFinish = (values) => {
     const postUser = async () => {
       const response = await api.postUserLogin(values);
@@ -18,7 +18,6 @@ const SigInPage = () => {
     };
     postUser();
     // api.postUserLogin(values);
-
     // console.log("Received values of form: ", values);
   };
 

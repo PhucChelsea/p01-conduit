@@ -1,12 +1,11 @@
 import React from "react";
 import { Layout, Row, Col } from "antd";
 import { EditFilled, SettingFilled } from "@ant-design/icons";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { helper } from "../helpers/common";
 const { Header } = Layout;
 
 const HeaderComponent = () => {
-  // const { pathname } = useLocation();
   const info = helper.decodeTokenFromLocalStorage();
   // console.log("info", info);
   const username = info !== null ? info["username"] : null;
