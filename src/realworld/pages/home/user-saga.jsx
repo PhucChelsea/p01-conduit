@@ -1,5 +1,5 @@
 import { put, call, takeEvery } from "redux-saga/effects";
-import * as actions from "./actions/index";
+import * as actions from "./actions/ActionGetUser";
 import { GET_DATA_USERS } from "./actions/types";
 import { api } from "../../api/api-user";
 import { helper } from "../../helpers/common";

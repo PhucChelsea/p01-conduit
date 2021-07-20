@@ -1,5 +1,6 @@
 import * as types from "./types";
 
+//
 export const getDataUser = () => ({
   type: types.GET_DATA_USERS,
 });
@@ -24,3 +25,5 @@ export const getDataUserFail = (error) => ({
   type: types.GET_DATA_USERS_FAIL,
   error,
 });
+
+
