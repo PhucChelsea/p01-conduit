@@ -18,11 +18,13 @@ const PaginationComponent = (props) => {
   );
   const [page, setPage] = useState(cPage);
   const [filter, setFilter] = useState(filters);
-  // console.log(articlesCount);
-  // console.log(filter);
-  // console.log(page);
+  console.log(articlesCount);
+  console.log(filter);
+  console.log(page);
+  console.log("cPage:", cPage);
+  console.log("filters:", filters);
   const { limit } = filter;
-  // console.log("limit:", limit);
+  console.log("limit:", limit);
   const handlePageChange = (filter, newPage) => {
     dispatch(getDataArticles(filter, newPage));
     let offset = (newPage - 1) * limit;
@@ -38,7 +40,7 @@ const PaginationComponent = (props) => {
       <Col span={20} offset={2}>
         <Pagination
           current={page}
-          pageSize={limit}
+          pageSize={10}
           total={articlesCount}
           showSizeChanger={false}
           onChange={(p) => handlePageChange(filter, p)}

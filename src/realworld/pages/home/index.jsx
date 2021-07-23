@@ -15,18 +15,20 @@ import { getArticleWithTag } from "./actions/ActionGetArticle.Tag";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { loading, filters, cPage } = useSelector(
-    createStructuredSelector({
-      filters: reselect.getFilterReselect,
-      loading: reselect.loadingReselect,
-      cPage: reselect.currentPageReselect,
-    })
-  );
-  console.log("Page:", cPage);
-  console.log("filters:", filters);
-  const [page, setPage] = useState(cPage);
-  const [filter, setFilter] = useState(filters);
-
+  // const { loading, filters, cPage } = useSelector(
+  //   createStructuredSelector({
+  //     filters: reselect.getFilterReselect,
+  //     loading: reselect.loadingReselect,
+  //     cPage: reselect.currentPageReselect,
+  //   })
+  // );
+  const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState({
+    limit: 10,
+    offset: 0,
+  });
+  // console.log("Page:", cPage);
+  // console.log("filters:", filters);
   const info = localStorage.getItem("jwt");
   // console.log("info", info);
   if (info !== null) {
@@ -40,12 +42,18 @@ const HomePage = () => {
     dispatch(getArticleWithTag(nameTag));
     setTag(nameTag);
   };
-
   useEffect(() => {
-    if (!helper.isEmptyObject(filters)) {
-      dispatch(getDataArticles(filters, cPage));
-    }
-  }, [dispatch, filters, cPage]);
+    dispatch(getDataArticles(filter, page));
+  }, [dispatch, filter, page]);
+
+  // useEffect(() => {
+  //   if (!helper.isEmptyObject(filters)) {
+  //     dispatch(getDataArticles(filter, page));
+  //     setPage(cPage);
+  //     setFilter(filters);
+  //   }
+  // }, [dispatch, filters, page, filter, cPage]);
+
   return (
     <LayoutComponent>
       <Row>
