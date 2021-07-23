@@ -1,40 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LayoutComponent from "../../components/layoutComponent";
 import PopularTags from "./components/popularTags";
 import TabFeedComponent from "./components/Feed";
+import PaginationComponent from "./components/pagination";
 import { Row, Col } from "antd";
 import { getDataPopularTags } from "./actions/ActionGetTag";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDataUser } from "./actions/ActionGetUser";
+import * as reselect from "./articles-reselect";
+import { createStructuredSelector } from "reselect";
 import { helper } from "../../helpers/common";
 import { getDataArticles } from "./actions/ActionGetArticles";
+import { getArticleWithTag } from "./actions/ActionGetArticle.Tag";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const { loading, filters, cPage } = useSelector(
+    createStructuredSelector({
+      filters: reselect.getFilterReselect,
+      loading: reselect.loadingReselect,
+      cPage: reselect.currentPageReselect,
+    })
+  );
+  console.log("Page:", cPage);
+  console.log("filters:", filters);
+  const [page, setPage] = useState(cPage);
+  const [filter, setFilter] = useState(filters);
+
   const info = localStorage.getItem("jwt");
   // console.log("info", info);
   if (info !== null) {
     dispatch(getDataUser());
   }
-  dispatch(getDataPopularTags());
-  dispatch(getDataArticles());
+  useEffect(() => {
+    dispatch(getDataPopularTags());
+  }, [dispatch]);
+  const [tag, setTag] = useState();
+  const handleClick = (nameTag) => {
+    dispatch(getArticleWithTag(nameTag));
+    setTag(nameTag);
+  };
 
-  // useEffect(() => {
-  //   const info = localStorage.getItem("jwt");
-  //   console.log("info", info);
-  //   if (info !== null) {
-  //     dispatch(getDataUser());
-  //   }
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   dispatch(getDataPopularTags());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   dispatch(getDataArticles());
-  // }, [dispatch]);
-
+  useEffect(() => {
+    if (!helper.isEmptyObject(filters)) {
+      dispatch(getDataArticles(filters, cPage));
+    }
+  }, [dispatch, filters, cPage]);
   return (
     <LayoutComponent>
       <Row>
@@ -50,17 +61,18 @@ const HomePage = () => {
           <span>A place to share your knowledge.</span>
         </Col>
       </Row>
-      <Row>
-        <Col span={20} offset={2}>
+      <Row style={{ marginTop: "2rem" }}>
+        <Col span={18} offset={3}>
           <Row>
             <Col
               span={18}
               style={{ backgroundColor: "aqua", minHeight: "400px" }}
             >
-              <TabFeedComponent />
+              <TabFeedComponent tag={tag} />
+              <PaginationComponent />
             </Col>
             <Col span={6}>
-              <PopularTags />
+              <PopularTags onClick={handleClick} />
             </Col>
           </Row>
         </Col>

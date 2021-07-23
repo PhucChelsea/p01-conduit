@@ -1,4 +1,5 @@
 import axios from "axios";
+import queryString from "query-string";
 import { helper } from "../helpers/common";
 
 const baseUrl = `https://conduit.productionready.io/api`;
@@ -65,15 +66,18 @@ const getDataTags = async () => {
   return result;
 };
 
-const getDataArticles = async (p = 4, val = 0) => {
-  const url = `${baseUrl}/articles?limit=${p}&offset=${val}`;
+const getDataArticles = async (filters) => {
+  const paramString = queryString.stringify(filters);
+  const url = `${baseUrl}/articles?${paramString}`;
+  // console.log(url);
   const response = await axios.get(url);
   const result = response.status === 200 ? response.data : {};
+
   return result;
 };
 
-const getDataArticlesByTag = async (tag, val = 0) => {
-  const url = `${baseUrl}/articles?tag=${tag}&limit=10&offset=${val}`;
+const getDataArticlesByTag = async (tag) => {
+  const url = `${baseUrl}/articles?tag=${tag}&limit=10&offset=0`;
   const response = await axios.get(url);
   const result = response.status === 200 ? response.data : {};
   return result;

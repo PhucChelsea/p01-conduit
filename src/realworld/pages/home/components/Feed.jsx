@@ -1,26 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Descriptions, Tabs, Row, Col } from "antd";
-import Pagination from "./pagination";
+import { getDataArticles } from "../actions/ActionGetArticles";
 import * as reselect from "../articles-reselect";
 import { createStructuredSelector } from "reselect";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const { TabPane } = Tabs;
-const TabFeedComponent = () => {
+const TabFeedComponent = (props) => {
+  const dispatch = useDispatch();
   const info = localStorage.getItem("jwt");
-  const { loading, dataArticles, articlesCount } = useSelector(
+  const { tag } = props;
+  // console.log("nameTag:", tag);
+  const { loading, dataArticles } = useSelector(
     createStructuredSelector({
       loading: reselect.loadingReselect,
       dataArticles: reselect.dataArticleReselect,
-      articlesCount: reselect.articlesCountReselect,
     })
   );
-  // console.log("data:", dataArticles);
+
   return (
     <>
       <Row>
         <Col span={22} offset={1}>
           <Tabs defaultActiveKey="1">
+            {info !== null && (
+              <TabPane tab={<span>Your Feed</span>} key="2">
+                Tab 2
+              </TabPane>
+            )}
             <TabPane tab={<span>Global Feed</span>} key="1">
               <Row>
                 {dataArticles
@@ -34,31 +41,18 @@ const TabFeedComponent = () => {
                           <Descriptions.Item label="UserName">
                             {item.author.username}
                           </Descriptions.Item>
-                          {/* <Descriptions.Item label="Telephone">
-                            1810000000
+                          <Descriptions.Item label="tagList">
+                            {item.tagList.map((tg) => (
+                              <span style={{ marginLeft: "10px" }}>{tg}</span>
+                            ))}
                           </Descriptions.Item>
-                          <Descriptions.Item label="Live">
-                            Hangzhou, Zhejiang
-                          </Descriptions.Item>
-                          <Descriptions.Item label="Remark">
-                            empty
-                          </Descriptions.Item>
-                          <Descriptions.Item label="Address">
-                            No. 18, Wantang Road, Xihu District, Hangzhou,
-                            Zhejiang, China
-                          </Descriptions.Item> */}
                         </Descriptions>
                       </Col>
                     ))
                   : null}
-                <Pagination />
               </Row>
             </TabPane>
-            {info !== null && (
-              <TabPane tab={<span>Your Feed</span>} key="2">
-                Tab 2
-              </TabPane>
-            )}
+            {tag !== "" && <TabPane tab={tag} />}
           </Tabs>
         </Col>
       </Row>

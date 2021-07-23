@@ -4,10 +4,10 @@ import { helper } from "../../helpers/common";
 import * as actions from "./actions/ActionGetArticles";
 import { GET_DATA_ARTICLES } from "./actions/types";
 
-function* articlesSaga({ val }) {
+function* articlesSaga({ filters, cPage }) {
   try {
     yield put(actions.startGetDataArticles(true));
-    const result = yield call(api.getDataArticles, val);
+    const result = yield call(api.getDataArticles, filters, cPage);
     if (!helper.isEmptyObject(result)) {
       yield put(actions.getDataArticlesSuccess(result));
     } else {

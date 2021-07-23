@@ -6,8 +6,10 @@ import {
   GET_DATA_ARTICLES_FAIL,
 } from "./types";
 
-export const getDataArticles = () => ({
+export const getDataArticles = (filters, cPage = 1) => ({
   type: GET_DATA_ARTICLES,
+  filters,
+  cPage,
 });
 export const startGetDataArticles = (loading) => ({
   type: START_GET_DATA_ARTICLES,

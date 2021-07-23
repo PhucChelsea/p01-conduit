@@ -10,6 +10,7 @@ const { Content } = Layout;
 
 const StyleContent = styled.div`
   min-height: 110vh;
+  margin-bottom: 6rem;
 `;
 const LayoutComponent = (props) => {
   return (
