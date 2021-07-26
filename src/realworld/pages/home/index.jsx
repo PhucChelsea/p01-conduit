@@ -15,25 +15,33 @@ import { getArticleWithTag } from "./actions/ActionGetArticle.Tag";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  // const { loading, filters, cPage } = useSelector(
-  //   createStructuredSelector({
-  //     filters: reselect.getFilterReselect,
-  //     loading: reselect.loadingReselect,
-  //     cPage: reselect.currentPageReselect,
-  //   })
-  // );
-  const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState({
-    limit: 10,
-    offset: 0,
-  });
-  // console.log("Page:", cPage);
-  // console.log("filters:", filters);
   const info = localStorage.getItem("jwt");
   // console.log("info", info);
   if (info !== null) {
     dispatch(getDataUser());
   }
+
+  const [filter, setNewFilter] = useState({
+    limit: 10,
+    offset: 0,
+  });
+  const [page, setPage] = useState(1);
+  const { limit } = filter;
+  useEffect(() => {
+    dispatch(getDataArticles(filter, page));
+    // console.log("filters:", filter);
+  }, [dispatch, filter, page]);
+
+  const handlePageChange = (newPage) => {
+    const newOffset = (newPage - 1) * limit;
+    console.log(newPage);
+    setPage(newPage);
+    setNewFilter({
+      ...filter,
+      offset: newOffset,
+    });
+    // console.log("newFilters:", filter);
+  };
   useEffect(() => {
     dispatch(getDataPopularTags());
   }, [dispatch]);
@@ -41,18 +49,8 @@ const HomePage = () => {
   const handleClick = (nameTag) => {
     dispatch(getArticleWithTag(nameTag));
     setTag(nameTag);
+    console.log("hello 1");
   };
-  useEffect(() => {
-    dispatch(getDataArticles(filter, page));
-  }, [dispatch, filter, page]);
-
-  // useEffect(() => {
-  //   if (!helper.isEmptyObject(filters)) {
-  //     dispatch(getDataArticles(filter, page));
-  //     setPage(cPage);
-  //     setFilter(filters);
-  //   }
-  // }, [dispatch, filters, page, filter, cPage]);
 
   return (
     <LayoutComponent>
@@ -77,7 +75,11 @@ const HomePage = () => {
               style={{ backgroundColor: "aqua", minHeight: "400px" }}
             >
               <TabFeedComponent tag={tag} />
-              <PaginationComponent />
+              <PaginationComponent
+                page={page}
+                filter={filter}
+                onPageChange={handlePageChange}
+              />
             </Col>
             <Col span={6}>
               <PopularTags onClick={handleClick} />

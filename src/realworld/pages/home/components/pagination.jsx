@@ -7,50 +7,34 @@ import { getDataArticles } from "../actions/ActionGetArticles";
 import PropTypes from "prop-types";
 
 const PaginationComponent = (props) => {
-  // const { onPageChange, filters } = props;
+  const { onPageChange, page, filter } = props;
+  const { limit } = filter;
   const dispatch = useDispatch();
-  const { cPage, articlesCount, filters } = useSelector(
+  const { totalArticles } = useSelector(
     createStructuredSelector({
-      filters: reselect.getFilterReselect,
-      cPage: reselect.currentPageReselect,
-      articlesCount: reselect.articlesCountReselect,
+      totalArticles: reselect.articlesCountReselect,
     })
   );
-  const [page, setPage] = useState(cPage);
-  const [filter, setFilter] = useState(filters);
-  console.log(articlesCount);
-  console.log(filter);
-  console.log(page);
-  console.log("cPage:", cPage);
-  console.log("filters:", filters);
-  const { limit } = filter;
-  console.log("limit:", limit);
-  const handlePageChange = (filter, newPage) => {
-    dispatch(getDataArticles(filter, newPage));
-    let offset = (newPage - 1) * limit;
-    setPage(newPage);
-    setFilter({
-      ...filters,
-      limit: limit,
-      offset: offset,
-    });
+  const handlePageChange = (newPage) => {
+    onPageChange(newPage);
   };
   return (
     <Row style={{ marginBottom: "1px" }}>
       <Col span={20} offset={2}>
         <Pagination
           current={page}
-          pageSize={10}
-          total={articlesCount}
+          pageSize={limit}
+          total={totalArticles}
           showSizeChanger={false}
-          onChange={(p) => handlePageChange(filter, p)}
+          onChange={(p) => handlePageChange(p)}
         />
       </Col>
     </Row>
   );
 };
 PaginationComponent.propTypes = {
-  onPageChange: PropTypes.func.isRequired,
-  filters: PropTypes.object.isRequired,
+  onPageChange: PropTypes.func,
+  page: PropTypes.number,
+  filter: PropTypes.object,
 };
 export default React.memo(PaginationComponent);

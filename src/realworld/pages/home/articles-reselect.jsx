@@ -20,5 +20,5 @@ export const currentPageReselect = createSelector(
 );
 export const getFilterReselect = createSelector(
   articleSelector,
-  (item) => item.filters
+  (item) => item.filters,
 );

@@ -9,11 +9,11 @@ const initialState = {
   loading: false,
   dataArticles: [],
   error: null,
-  cPage: 1,
   filters: {
     limit: 10,
     offset: 0,
   },
+  cPage: 1,
 };
 
 export const articlesReducer = (state = initialState, action) => {
@@ -32,9 +32,9 @@ export const articlesReducer = (state = initialState, action) => {
       return {
         ...state,
         dataArticles: action.dataArticles,
-        cPage: action.cPage,
-        filters: action.filters,
         error: null,
+        filters: action.filters,
+        cPage: action.cPage,
       };
     case GET_DATA_ARTICLES_FAIL:
       return {
