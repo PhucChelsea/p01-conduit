@@ -17,9 +17,6 @@ const rootReducer = combineReducers({
   profileUserReducer,
   popularTagReducer,
   articlesReducer,
-  articleWithTagReducer: persistReducer(
-    configTagPersist,
-    articleWithTagReducer
-  ),
+  articleWithTagReducer,
 });
 export default rootReducer;

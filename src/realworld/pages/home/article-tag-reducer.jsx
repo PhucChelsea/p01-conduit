@@ -8,6 +8,7 @@ import {
 
 const initSate = {
   dataWithTag: [],
+  nameTag: "",
   errWithTag: null,
 };
 

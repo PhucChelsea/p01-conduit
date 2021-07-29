@@ -6,10 +6,11 @@ import {
   STOP_GET_ARTICLE_WITH_TAG,
 } from "./types";
 
-export const getArticleWithTag = (nameTag, filter) => ({
+export const getArticleWithTag = (nameTag, filter, page = 1) => ({
   type: GET_DATA_ARTICLE_WITH_TAG,
   nameTag,
   filter,
+  page,
 });
 
 export const startGetArticleWithTag = (loading) => ({

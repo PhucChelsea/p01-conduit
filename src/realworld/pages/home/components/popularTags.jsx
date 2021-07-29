@@ -8,15 +8,16 @@ import { getDataPopularTags } from "../actions/ActionGetTag";
 const { CheckableTag } = Tag;
 const PopularTag = (props) => {
   const { onClick } = props;
-  // const dispatch = useDispatch();
-  // dispatch(getDataPopularTags());
+  const dispatch = useDispatch();
   const { loading, dataTags } = useSelector(
     createStructuredSelector({
       loading: reselect.loadingReselect,
       dataTags: reselect.tagsReselect,
     })
   );
-  // console.log(dataTags);
+  useEffect(() => {
+    dispatch(getDataPopularTags());
+  }, [dispatch]);
   if (loading) {
     return (
       <Row>
@@ -27,7 +28,9 @@ const PopularTag = (props) => {
     );
   }
   const changeTag = (item) => {
-    onClick(item);
+    if (onClick) {
+      onClick(item);
+    }
   };
   return (
     <Row>

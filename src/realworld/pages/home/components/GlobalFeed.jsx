@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Descriptions } from "antd";
+import { Descriptions, Row, Col } from "antd";
+import { getDataArticles } from "../actions/ActionGetArticles";
 import PaginationComponent from "./pagination";
-import { getArticleWithTag } from "../actions/ActionGetArticle.Tag";
-import { ArticleTagReselect } from "../article-tag-reselect";
+import * as reselect from "../articles-reselect";
 import { createStructuredSelector } from "reselect";
 import { useSelector, useDispatch } from "react-redux";
 
-const ArticleTag = (props) => {
-  const { nameTag } = props;
+const GlobalFeed = () => {
   const dispatch = useDispatch();
-  const { articleWithTag } = useSelector(
+  const { dataArticles } = useSelector(
     createStructuredSelector({
-      articleWithTag: ArticleTagReselect,
+      dataArticles: reselect.dataArticleReselect,
     })
   );
   const [filter, setNewFilter] = useState({
@@ -20,11 +19,12 @@ const ArticleTag = (props) => {
   });
   const [page, setPage] = useState(1);
   useEffect(() => {
-    dispatch(getArticleWithTag(nameTag, filter, page));
-  }, [dispatch, nameTag, filter, page]);
+    dispatch(getDataArticles(filter, page));
+  }, [dispatch, filter, page]);
 
   const handlePageChange = (newPage) => {
     const newOffset = (newPage - 1) * filter.limit;
+    // console.log(newPage);
     setPage(newPage);
     setNewFilter({
       ...filter,
@@ -34,8 +34,8 @@ const ArticleTag = (props) => {
   return (
     <>
       <Row>
-        {articleWithTag
-          ? articleWithTag.map((item, index) => (
+        {dataArticles
+          ? dataArticles.map((item, index) => (
               <Col
                 style={{ borderBottom: "1px solid black" }}
                 key={index}
@@ -43,6 +43,9 @@ const ArticleTag = (props) => {
                 offset={2}
               >
                 <Descriptions title={item.title}>
+                  <Descriptions.Item label="UserName">
+                    {item.author.username}
+                  </Descriptions.Item>
                   <Descriptions.Item label="tagList">
                     {item.tagList.map((tg) => (
                       <span style={{ marginLeft: "10px" }}>{tg}</span>
@@ -65,4 +68,4 @@ const ArticleTag = (props) => {
     </>
   );
 };
-export default React.memo(ArticleTag);
+export default React.memo(GlobalFeed);

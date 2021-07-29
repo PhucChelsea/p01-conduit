@@ -1,60 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { Col, Row, Tabs } from "antd";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import LayoutComponent from "../../components/layoutComponent";
-import PopularTags from "./components/popularTags";
-import TabFeedComponent from "./components/Feed";
-import PaginationComponent from "./components/pagination";
-import { Row, Col } from "antd";
-import { getDataPopularTags } from "./actions/ActionGetTag";
-import { useDispatch, useSelector } from "react-redux";
 import { getDataUser } from "./actions/ActionGetUser";
-import * as reselect from "./articles-reselect";
-import { createStructuredSelector } from "reselect";
-import { helper } from "../../helpers/common";
-import { useHistory } from "react-router-dom";
-import { getDataArticles } from "./actions/ActionGetArticles";
-import { getArticleWithTag } from "./actions/ActionGetArticle.Tag";
+import YourFeed from "./components/yourFeed";
+import ArticleTag from "./components/ArticleTag";
+import GlobalFeed from "./components/GlobalFeed";
+import PopularTags from "./components/popularTags";
 
+const { TabPane } = Tabs;
 const HomePage = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const info = localStorage.getItem("jwt");
-  // console.log("info", info);
   if (info !== null) {
     dispatch(getDataUser());
   }
-
-  const [filter, setNewFilter] = useState({
-    limit: 10,
-    offset: 0,
-  });
-  const [page, setPage] = useState(1);
-  const { limit } = filter;
-  useEffect(() => {
-    dispatch(getDataArticles(filter, page));
-    // console.log("filters:", filter);
-  }, [dispatch, filter, page]);
-
-  const handlePageChange = (newPage) => {
-    const newOffset = (newPage - 1) * limit;
-    console.log(newPage);
-    setPage(newPage);
-    setNewFilter({
-      ...filter,
-      offset: newOffset,
-    });
-    // console.log("newFilters:", filter);
+  const [nameTag, setNameTag] = useState();
+  const handleChangeTag = (nameTag) => {
+    setNameTag(nameTag);
   };
-  useEffect(() => {
-    dispatch(getDataPopularTags());
-  }, [dispatch]);
-  const [tag, setTag] = useState();
-  const handleClick = (nameTag) => {
-    dispatch(getArticleWithTag(nameTag, filter));
-    setTag(nameTag);
-    // console.log(filter);
-    // console.log("hello 1");
-  };
-
   return (
     <LayoutComponent>
       <Row>
@@ -77,15 +41,24 @@ const HomePage = () => {
               span={18}
               style={{ backgroundColor: "aqua", minHeight: "400px" }}
             >
-              <TabFeedComponent tag={tag} />
-              <PaginationComponent
-                page={page}
-                filter={filter}
-                onPageChange={handlePageChange}
-              />
+              <Tabs defaultActiveKey={!nameTag ? "1" : "3"}>
+                {info !== null && (
+                  <TabPane tab={<span>Your Feed</span>} key="2">
+                    <YourFeed />
+                  </TabPane>
+                )}
+                <TabPane tab={<span>Global Feed</span>} key="1">
+                  <GlobalFeed />
+                </TabPane>
+                {nameTag && (
+                  <TabPane tab={<span>#{nameTag}</span>} key="3">
+                    <ArticleTag nameTag={nameTag} />
+                  </TabPane>
+                )}
+              </Tabs>
             </Col>
             <Col span={6}>
-              <PopularTags onClick={handleClick} />
+              <PopularTags onClick={handleChangeTag} />
             </Col>
           </Row>
         </Col>

@@ -17,7 +17,7 @@ const enhancer = composeEnhancers(applyMiddleware(logger, sagaMiddleware));
 const configRootPersist = {
   key: "root",
   storage,
-  whitelist: ["articleWithTagReducer, articlesReducer"],
+  whitelist: [],
 };
 
 const rootPersistReducer = persistReducer(configRootPersist, rootReducer);

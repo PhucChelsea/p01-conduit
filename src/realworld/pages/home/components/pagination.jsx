@@ -7,8 +7,8 @@ import { getDataArticles } from "../actions/ActionGetArticles";
 import PropTypes from "prop-types";
 
 const PaginationComponent = (props) => {
-  const { onPageChange, page, filter } = props;
-  const { limit } = filter;
+  const { onPageChange, page, filters } = props;
+  // const { limit } = filters;
   const dispatch = useDispatch();
   const { totalArticles } = useSelector(
     createStructuredSelector({
@@ -23,7 +23,7 @@ const PaginationComponent = (props) => {
       <Col span={20} offset={2}>
         <Pagination
           current={page}
-          pageSize={limit}
+          pageSize={10}
           total={totalArticles}
           showSizeChanger={false}
           onChange={(p) => handlePageChange(p)}
