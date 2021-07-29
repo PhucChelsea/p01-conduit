@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Descriptions, Tabs, Row, Col } from "antd";
 import { getDataArticles } from "../actions/ActionGetArticles";
+import ArticleTag from "./ArticleTag";
 import * as reselect from "../articles-reselect";
 import { createStructuredSelector } from "reselect";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,7 +23,7 @@ const TabFeedComponent = (props) => {
     <>
       <Row>
         <Col span={22} offset={1}>
-          <Tabs defaultActiveKey="1">
+          <Tabs defaultActiveKey={!tag ? "3" : "1"}>
             {info !== null && (
               <TabPane tab={<span>Your Feed</span>} key="2">
                 Tab 2
@@ -52,7 +53,11 @@ const TabFeedComponent = (props) => {
                   : null}
               </Row>
             </TabPane>
-            {tag !== "" && <TabPane tab={tag} />}
+            {tag !== "" && (
+              <TabPane key="3" tab={tag}>
+                <ArticleTag />
+              </TabPane>
+            )}
           </Tabs>
         </Col>
       </Row>

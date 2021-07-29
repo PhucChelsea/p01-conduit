@@ -76,8 +76,10 @@ const getDataArticles = async (filters) => {
   return result;
 };
 
-const getDataArticlesByTag = async (tag) => {
-  const url = `${baseUrl}/articles?tag=${tag}&limit=10&offset=0`;
+const getDataArticlesByTag = async (tag, filter) => {
+  const paramString = queryString.stringify(filter);
+  const url = `${baseUrl}/articles?tag=${tag}&${paramString}`;
+  console.log(url);
   const response = await axios.get(url);
   const result = response.status === 200 ? response.data : {};
   return result;

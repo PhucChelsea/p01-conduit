@@ -7,9 +7,9 @@ import {
 import { api } from "../../api/api-user";
 import { helper } from "../../helpers/common";
 
-function* articleWithTagSaga({ nameTag }) {
+function* articleWithTagSaga({ nameTag, filter }) {
   try {
-    const result = yield call(api.getDataArticlesByTag, nameTag);
+    const result = yield call(api.getDataArticlesByTag, nameTag, filter);
     if (!helper.isEmptyObject(result)) {
       yield put(getArticleWithTagSuccess(result));
     } else {

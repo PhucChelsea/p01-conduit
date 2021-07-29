@@ -10,10 +10,12 @@ import { getDataUser } from "./actions/ActionGetUser";
 import * as reselect from "./articles-reselect";
 import { createStructuredSelector } from "reselect";
 import { helper } from "../../helpers/common";
+import { useHistory } from "react-router-dom";
 import { getDataArticles } from "./actions/ActionGetArticles";
 import { getArticleWithTag } from "./actions/ActionGetArticle.Tag";
 
 const HomePage = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const info = localStorage.getItem("jwt");
   // console.log("info", info);
@@ -47,9 +49,10 @@ const HomePage = () => {
   }, [dispatch]);
   const [tag, setTag] = useState();
   const handleClick = (nameTag) => {
-    dispatch(getArticleWithTag(nameTag));
+    dispatch(getArticleWithTag(nameTag, filter));
     setTag(nameTag);
-    console.log("hello 1");
+    // console.log(filter);
+    // console.log("hello 1");
   };
 
   return (
