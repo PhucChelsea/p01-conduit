@@ -1,5 +1,6 @@
 import { Col, Row, Tabs } from "antd";
 import React, { useState } from "react";
+import BannerHomePage from "./components/Banner";
 import { useDispatch } from "react-redux";
 import LayoutComponent from "../../components/layoutComponent";
 import { getDataUser } from "./actions/ActionGetUser";
@@ -16,22 +17,16 @@ const HomePage = () => {
     dispatch(getDataUser());
   }
   const [nameTag, setNameTag] = useState();
+  // const getDataByTag = () => {};
   const handleChangeTag = (nameTag) => {
     setNameTag(nameTag);
+    // getDataByTag(nameTag);
   };
   return (
     <LayoutComponent>
       <Row>
-        <Col
-          span={24}
-          style={{
-            backgroundColor: "#5cb85c",
-            height: "170px",
-            textAlign: "center",
-          }}
-        >
-          <h1>conduit</h1>
-          <span>A place to share your knowledge.</span>
+        <Col span={24}>
+          <BannerHomePage />
         </Col>
       </Row>
       <Row style={{ marginTop: "2rem" }}>

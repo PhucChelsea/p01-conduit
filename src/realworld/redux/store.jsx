@@ -3,8 +3,7 @@ import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 import rootSaga from "./rootSaga";
 import rootReducer from "./rootReducer";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+
 
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers =
@@ -14,18 +13,11 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware(logger, sagaMiddleware));
 
-const configRootPersist = {
-  key: "root",
-  storage,
-  whitelist: [],
-};
-
-const rootPersistReducer = persistReducer(configRootPersist, rootReducer);
 const configStore = (initialState = {}) => {
-  const store = createStore(rootPersistReducer, initialState, enhancer);
+  const store = createStore(rootReducer, initialState, enhancer);
   sagaMiddleware.run(rootSaga);
-  const persistor = persistStore(store);
-  return { store, persistor };
+
+  return { store };
 };
 
 export default configStore;

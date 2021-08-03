@@ -1,7 +1,8 @@
 import axios from "axios";
 import queryString from "query-string";
 import { helper } from "../helpers/common";
-
+//https://conduit.productionready.io/api
+//https://conduit-api-realworld.herokuapp.com/api
 const baseUrl = `https://conduit.productionready.io/api`;
 
 const postUserLogin = async ({ username, email, password }) => {
@@ -66,6 +67,18 @@ const getDataTags = async () => {
   return result;
 };
 
+const getArticlesUser = async (filters, nameTag) => {
+  const paramString = queryString.stringify(filters);
+  const url = !nameTag
+    ? `${baseUrl}/articles?${paramString}`
+    : `${baseUrl}/articles?tag=${nameTag}&${paramString}`;
+  const response = await axios.get(url);
+  const results = response.status === 200 ? response.data : {};
+  return results;
+};
+
+///
+
 const getDataArticles = async (filters) => {
   const paramString = queryString.stringify(filters);
   const url = `${baseUrl}/articles?${paramString}`;
@@ -79,7 +92,7 @@ const getDataArticles = async (filters) => {
 const getDataArticlesByTag = async (tag, filter) => {
   const paramString = queryString.stringify(filter);
   const url = `${baseUrl}/articles?tag=${tag}&${paramString}`;
-  console.log(url);
+  // console.log(url);
   const response = await axios.get(url);
   const result = response.status === 200 ? response.data : {};
   return result;
@@ -101,4 +114,5 @@ export const api = {
   getDataArticles,
   getDataArticlesByTag,
   getDataYourFeed,
+  getArticlesUser,
 };

@@ -2,17 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Pagination, Row, Col } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import * as reselect from "../articles-reselect";
+import {
+  countArticleReselect,
+  currentPageReselect,
+} from "../reselect/articleUser-reselect";
 import { createStructuredSelector } from "reselect";
 import { getDataArticles } from "../actions/ActionGetArticles";
 import PropTypes from "prop-types";
 
 const PaginationComponent = (props) => {
-  const { onPageChange, page, filters } = props;
+  const { onPageChange } = props;
   // const { limit } = filters;
-  const dispatch = useDispatch();
-  const { totalArticles } = useSelector(
+  // const dispatch = useDispatch();
+  const { totalArticles, cPage } = useSelector(
     createStructuredSelector({
-      totalArticles: reselect.articlesCountReselect,
+      totalArticles: countArticleReselect,
+      cPage: currentPageReselect,
     })
   );
   const handlePageChange = (newPage) => {
@@ -22,7 +27,7 @@ const PaginationComponent = (props) => {
     <Row style={{ marginBottom: "1px" }}>
       <Col span={20} offset={2}>
         <Pagination
-          current={page}
+          current={cPage}
           pageSize={10}
           total={totalArticles}
           showSizeChanger={false}
@@ -34,7 +39,5 @@ const PaginationComponent = (props) => {
 };
 PaginationComponent.propTypes = {
   onPageChange: PropTypes.func,
-  page: PropTypes.number,
-  filter: PropTypes.object,
 };
 export default React.memo(PaginationComponent);
