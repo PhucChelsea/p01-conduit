@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { Row, Col, Skeleton } from "antd";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import LayoutComponent from "../../components/layoutComponent";
@@ -16,7 +16,7 @@ const NewPostPage = () => {
       title: titleArticlePostReselect,
     })
   );
-  console.log("titlesss:", title);
+  title && console.log("Title:", title);
   return (
     <LayoutComponent>
       <Row>

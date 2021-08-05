@@ -4,7 +4,8 @@ import {
 } from "../actions/constant";
 
 const initialState = {
-  listComments: {},
+  infoComments: {},
+
   errors: null,
 };
 export const postCommentReducer = (state = initialState, action) => {
@@ -12,8 +13,16 @@ export const postCommentReducer = (state = initialState, action) => {
     case POST_COMMENT_USER_SUCCESS:
       return {
         ...state,
-        listComments: action.comments,
+        infoComments: action.comments,
       };
+    // const newComment = action.comments;
+    // console.log("newComment", newComment);
+    // return {
+    //   ...state,
+    //   listComments: [...state.listComments, newComment],
+    //   // countComment: state.countComment + 1,
+    // };
+
     case POST_COMMENT_USER_FAIL:
       return {
         ...state,

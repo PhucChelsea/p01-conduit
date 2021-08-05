@@ -1,5 +1,4 @@
 import {
-  POST_ARTICLE_USER,
   POST_ARTICLE_USER_SUCCESS,
   POST_ARTICLE_USER_FAILURE,
 } from "../actions/constant";

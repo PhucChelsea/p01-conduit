@@ -34,7 +34,7 @@ const FormComment = () => {
   return (
     <Row>
       <Col span={18} offset={3}>
-        {/* <h3>body:{body}</h3> */}
+        <h3>body:{body}</h3>
         <hr />
         <Row>
           <Col>
