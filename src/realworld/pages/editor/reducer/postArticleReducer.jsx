@@ -9,7 +9,7 @@ const initState = {
   error: null,
 };
 
-export const PostArticleReducer = (state = initState, action) => {
+export const postArticleReducer = (state = initState, action) => {
   switch (action.type) {
     case POST_ARTICLE_USER_SUCCESS:
       return {

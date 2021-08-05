@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { Row, Col, Input, Button, Form } from "antd";
 import ListComment from "./ListComment";
 import { getArticleByTitle } from "../actions/getArticleByTitle";
+import { postCommentUser } from "../actions/postComment";
 import { useDispatch, useSelector } from "react-redux";
 import { getBodyArticleByTitleReselect } from "../reselect/getArticleTitleReselect";
-import { titleArticlePost } from "../reselect/postArticleReselect";
+import { titleArticlePostReselect } from "../reselect/postArticleReselect";
 import { createStructuredSelector } from "reselect";
 
 const FormComment = () => {
@@ -16,24 +17,29 @@ const FormComment = () => {
   );
   const { title } = useSelector(
     createStructuredSelector({
-      title: titleArticlePost,
+      title: titleArticlePostReselect,
     })
   );
   useEffect(() => {
     dispatch(getArticleByTitle(title));
   }, [dispatch, title]);
+
+  console.log("bodY:", body);
+  console.log("TiTLE:", title);
+
   const onFinish = (values) => {
-    // console.log(values);
+    console.log("valuesse----:", values);
+    dispatch(postCommentUser(values, title));
   };
   return (
     <Row>
       <Col span={18} offset={3}>
-        <h3>body:{body}</h3>
+        {/* <h3>body:{body}</h3> */}
         <hr />
         <Row>
           <Col>
             <Form onFinish={onFinish}>
-              <Form.Item>
+              <Form.Item name="body">
                 <Input.TextArea
                   placeholder="Write your article (in markdown)"
                   rows={6}

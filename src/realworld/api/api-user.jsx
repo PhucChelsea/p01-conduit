@@ -104,13 +104,13 @@ const postArticleUser = async ({ title, description, body, tagList }) => {
 };
 
 const getUserArticle = async (title) => {
-  const url = `${baseUrl}/article/${title}`;
+  const url = `${baseUrl}/articles/${title}`;
   const response = await axios.get(url);
   const result = response.status === 200 ? response.data : {};
   return result;
 };
 
-const postCommentUser = async ({ body }, title) => {
+const postCommentUser = async (body, title) => {
   const response = await axios({
     url: `${baseUrl}/articles/${title}/comments`,
     method: "POST",

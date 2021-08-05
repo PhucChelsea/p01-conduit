@@ -12,7 +12,7 @@ function* postArticleSaga({ title, description, body, tagList }) {
       body: body,
       tagList: tagList,
     });
-    console.log(result);
+    console.log("result postArticle:", result);
     if (!helper.isEmptyObject(result)) {
       yield put(actions.postArticleUserSuccess(result));
     } else {

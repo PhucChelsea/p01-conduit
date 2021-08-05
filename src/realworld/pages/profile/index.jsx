@@ -11,6 +11,7 @@ const ProfilePage = () => {
   const userName = infoUser.username;
 
   const users = useSelector((state) => state.profileUserReducer.dataUser);
+
   console.log("users:", users);
 
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ const ProfilePage = () => {
   };
   return (
     <LayoutComponent>
-      <h1>{infoUser["username"]}</h1>
       <h1>{userName}</h1>
       <Button type="primary" onClick={() => handleClick()}>
         setting profile

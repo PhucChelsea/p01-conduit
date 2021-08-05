@@ -5,8 +5,10 @@ import { popularTagReducer } from "../pages/home/tags-reducer";
 import { articlesReducer } from "../pages/home/articles-reducer";
 import { articleWithTagReducer } from "../pages/home/article-tag-reducer";
 import { ArticlesUserReducer } from "../pages/home/reducer/articlesUser-reducer";
-import { PostArticleReducer } from "../pages/editor/reducer/postArticleReducer";
-import { ArticleByTitleReducer } from "../pages/editor/reducer/getArticleByTitle";
+import { postArticleReducer } from "../pages/editor/reducer/postArticleReducer";
+import { articleByTitleReducer } from "../pages/editor/reducer/getArticleByTitle";
+import { getCommentReducer } from "../pages/editor/reducer/getCommentReducer";
+import { postCommentReducer } from "../pages/editor/reducer/postCommentReducer";
 
 const rootReducer = combineReducers({
   userReducer,
@@ -15,7 +17,9 @@ const rootReducer = combineReducers({
   articlesReducer,
   articleWithTagReducer,
   ArticlesUserReducer,
-  PostArticleReducer,
-  ArticleByTitleReducer,
+  postArticleReducer,
+  articleByTitleReducer,
+  getCommentReducer,
+  postCommentReducer,
 });
 export default rootReducer;

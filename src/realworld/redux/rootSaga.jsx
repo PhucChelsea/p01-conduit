@@ -7,6 +7,8 @@ import { watchArticleWithTagSaga } from "../pages/home/article-tag-saga";
 import watchArticleUserSaga from "../pages/home/saga/articlesUser-saga";
 import watchPostArticleSaga from "../pages/editor/saga/postArticleSaga";
 import watchGetArticleByTitleSaga from "../pages/editor/saga/getArticleByTitleSaga";
+import watchGetCommentSaga from "../pages/editor/saga/getCommentSaga";
+import watchPostCommentSaga from "../pages/editor/saga/postCommentSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -18,5 +20,7 @@ export default function* rootSaga() {
     call(watchArticleUserSaga),
     call(watchPostArticleSaga),
     call(watchGetArticleByTitleSaga),
+    call(watchGetCommentSaga),
+    call(watchPostCommentSaga),
   ]);
 }

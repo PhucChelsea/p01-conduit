@@ -8,7 +8,7 @@ const initialState = {
   errors: null,
 };
 
-export const ArticleByTitleReducer = (state = initialState, action) => {
+export const articleByTitleReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_USER_ARTICLE_SUCCESS:
       return {

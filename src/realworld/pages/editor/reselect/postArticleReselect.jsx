@@ -1,8 +1,8 @@
 import { createSelector } from "reselect";
 
-const postArticleSelector = (state) => state.PostArticleReducer.dataArticles;
+const postArticleSelector = (state) => state.postArticleReducer.dataArticles;
 
-export const titleArticlePost = createSelector(
+export const titleArticlePostReselect = createSelector(
   postArticleSelector,
-  (item) => item.article.title
+  (item) => item.article
 );
