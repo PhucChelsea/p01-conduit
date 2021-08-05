@@ -76,28 +76,6 @@ const getArticlesUser = async (filters, nameTag) => {
   const results = response.status === 200 ? response.data : {};
   return results;
 };
-
-///
-
-const getDataArticles = async (filters) => {
-  const paramString = queryString.stringify(filters);
-  const url = `${baseUrl}/articles?${paramString}`;
-  // console.log(url);
-  const response = await axios.get(url);
-  const result = response.status === 200 ? response.data : {};
-
-  return result;
-};
-
-const getDataArticlesByTag = async (tag, filter) => {
-  const paramString = queryString.stringify(filter);
-  const url = `${baseUrl}/articles?tag=${tag}&${paramString}`;
-  // console.log(url);
-  const response = await axios.get(url);
-  const result = response.status === 200 ? response.data : {};
-  return result;
-};
-
 const getDataYourFeed = async () => {
   const url = `${baseUrl}/articles/feed?limit=10&offset=0`;
   const response = await axios.get(url);
@@ -105,14 +83,87 @@ const getDataYourFeed = async () => {
   return result;
 };
 
+const postArticleUser = async ({ title, description, body, tagList }) => {
+  const response = await axios({
+    url: `${baseUrl}/articles`,
+    method: "POST",
+    headers: {
+      Authorization: "Token " + localStorage.getItem("jwt"),
+    },
+    data: {
+      article: {
+        title: title,
+        description: description,
+        body: body,
+        tagList: tagList,
+      },
+    },
+  });
+  const result = response.status === 200 ? response.data : {};
+  return result;
+};
+
+const getUserArticle = async (title) => {
+  const url = `${baseUrl}/article/${title}`;
+  const response = await axios.get(url);
+  const result = response.status === 200 ? response.data : {};
+  return result;
+};
+
+const postCommentUser = async ({ body }, title) => {
+  const response = await axios({
+    url: `${baseUrl}/articles/${title}/comments`,
+    method: "POST",
+    headers: {
+      Authorization: "Token " + localStorage.getItem("jwt"),
+    },
+    data: {
+      comment: { body: body },
+    },
+  });
+  const result = response.status === 200 ? response.data : {};
+  return result;
+};
+const getCommentUser = async (title) => {
+  const url = `${baseUrl}/articles/${title}/comments`;
+  const response = await axios.get(url);
+  const result = response.status === 200 ? response.data : {};
+  return result;
+};
+
+///
+
+// const getDataArticles = async (filters) => {
+//   const paramString = queryString.stringify(filters);
+//   const url = `${baseUrl}/articles?${paramString}`;
+//   // console.log(url);
+//   const response = await axios.get(url);
+//   const result = response.status === 200 ? response.data : {};
+
+//   return result;
+// };
+
+// const getDataArticlesByTag = async (tag, filter) => {
+//   const paramString = queryString.stringify(filter);
+//   const url = `${baseUrl}/articles?tag=${tag}&${paramString}`;
+//   // console.log(url);
+//   const response = await axios.get(url);
+//   const result = response.status === 200 ? response.data : {};
+//   return result;
+// };
+
 export const api = {
   postDataUser,
   postUserLogin,
   getDataUser,
   getProfileUser,
   getDataTags,
-  getDataArticles,
-  getDataArticlesByTag,
   getDataYourFeed,
   getArticlesUser,
+  // getDataArticles,
+  // getDataArticlesByTag,
+  postArticleUser,
+  getUserArticle,
+  postCommentUser,
+  getCommentUser,
 };
