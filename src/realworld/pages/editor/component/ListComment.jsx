@@ -1,30 +1,48 @@
 import { DeleteFilled } from "@ant-design/icons";
 import { Card, Row, Col } from "antd";
 import React, { useState } from "react";
-import { postCommentReselect } from "../reselect/postCommentReselect";
+import {
+  postCommentReselect,
+  listCommentsReselect,
+} from "../reselect/postCommentReselect";
 import { createStructuredSelector } from "reselect";
 import { useSelector } from "react-redux";
 
 const ListComment = () => {
-  const { comments } = useSelector(
+  const { comment, listComments } = useSelector(
     createStructuredSelector({
-      comments: postCommentReselect,
+      comment: postCommentReselect,
+      listComments: listCommentsReselect,
     })
   );
-  console.log("list-comment:", comments);
-
+  console.log("list-comment:", comment);
 
   return (
     <Row>
-      {comments &&
-        comments.map((item, id) => (
-          <Col key={id} span={24}>
-            <Card title={item.body} bordered={false} style={{ width: 300 }}>
-              <p>userName</p>
-              <DeleteFilled />
-            </Card>
-          </Col>
-        ))}
+      <Col>
+        {listComments &&
+          listComments.map((item, index) => (
+            <Row key={index}>
+              <Col span={24}>
+                {comment &&
+                  comment.map((item, id) => (
+                    <Row key={id}>
+                      <Col>
+                        <Card
+                          title={item.body}
+                          bordered={false}
+                          style={{ width: 300 }}
+                        >
+                          <p>userName</p>
+                          <DeleteFilled />
+                        </Card>
+                      </Col>
+                    </Row>
+                  ))}
+              </Col>
+            </Row>
+          ))}
+      </Col>
     </Row>
   );
 };

@@ -1,9 +1,9 @@
 import { createSelector } from "reselect";
 
 const ArticleByTitleSelector = (state) =>
-  state.articleByTitleReducer.dataArticles.article;
+  state.articleByTitleReducer.dataArticles;
 
 export const getBodyArticleByTitleReselect = createSelector(
   ArticleByTitleSelector,
-  (item) => item.title
+  (item) => item.body
 );

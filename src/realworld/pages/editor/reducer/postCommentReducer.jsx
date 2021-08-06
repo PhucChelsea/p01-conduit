@@ -4,25 +4,20 @@ import {
 } from "../actions/constant";
 
 const initialState = {
-  infoComments: {},
-
+  infoComment: {},
+  listComments: [],
   errors: null,
 };
 export const postCommentReducer = (state = initialState, action) => {
   switch (action.type) {
     case POST_COMMENT_USER_SUCCESS:
+      const newComment = action.comments;
       return {
         ...state,
-        infoComments: action.comments,
+        infoComment: action.comments,
+        listComments: [...state.listComments, newComment],
       };
-    // const newComment = action.comments;
-    // console.log("newComment", newComment);
-    // return {
-    //   ...state,
-    //   listComments: [...state.listComments, newComment],
-    //   // countComment: state.countComment + 1,
-    // };
-
+  
     case POST_COMMENT_USER_FAIL:
       return {
         ...state,
